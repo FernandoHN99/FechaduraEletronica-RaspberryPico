@@ -1,5 +1,5 @@
 import os
-import time
+import utime
 
 class Util():
 
@@ -8,7 +8,14 @@ class Util():
         os.system('cls')
 
     @staticmethod
-    def wait(sec):
-        time.sleep(sec)
+    def wait_sec(sec):
+        utime.sleep(sec)
+
+    @staticmethod
+    def wait_ms(ms):
+        utime.sleep_ms(ms)
+
+
+        
     
 

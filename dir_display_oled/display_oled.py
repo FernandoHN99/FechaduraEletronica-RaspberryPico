@@ -28,7 +28,7 @@ class Display_Oled:
         self.clear()
         self.write(msg, x, y, color)
         self.display_show()
-        Util.wait(timer)
+        Util.wait_sec(timer)
 
     def vline(self, x, y, hgt, color=1):
         display.vline(x, y, hgt, color)

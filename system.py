@@ -1,17 +1,21 @@
-from dir_motion_detector.motion_detector import Motion_Detector
 from dir_display_oled.display_oled import Display_Oled
+from dir_motion_detector.motion_detector import Motion_Detector
+from dir_infrared_detector.infrared_detector import Infrared_Detector
 from dir_util.util import Util
 
 class System:
     def __init__(self):
         self._display01 = Display_Oled(rasp_sck=2, rasp_mosi=3, rasp_miso=4, display_dc=0, display_rst=1, display_cs=5)
         self._pir01     = Motion_Detector(raspberry_pin=14)
+        self._infrared  = Infrared_Detector(raspberry_pin=15, debounce_time=10)
 
     def run(self):
         self._display01.start()
         self._display01.write_full("Inicializando Display", 40, 3, timer=1)
         self._pir01.start()
         self._display01.write_full("Inicializando Sensor de Movimento", 40, 3, timer=1)
+        self._infrared.start()
+        self._display01.write_full("Inicializando Sensor Infravermelho", 40, 3, timer=1)
         self.start_track()
 
 
