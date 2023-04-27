@@ -24,6 +24,11 @@ class System:
             if(self._pir01.get_state() == 1 and self._pir01.get_last_state() == 0):  # Verifica se ocorreu uma borda de subida
                 self._pir01.set_state(1)                                             # Atualiza o estado anterior do senso
                 self._display01.write_full("Movimento detectado!", 40, 3)
+                self._pir01.pause_detection()
+                
+                # Códido da tag Restanto
+
+                    # Códido do infravermelho
 
             if(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                 self._pir01.set_state(0)                                            # Atualiza o estado anterior do senso

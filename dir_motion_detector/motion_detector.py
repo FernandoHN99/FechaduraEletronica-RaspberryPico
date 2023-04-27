@@ -18,6 +18,10 @@ class Motion_Detector:
     # Atualiza a variável global pir_state com o valor do pino
     def detector_callback(self):
         self._state = self._detector.value()
+    
+    # Pausa a detecção de movimento
+    def pause_detection(self):
+        self._detector.irq(trigger=None)
 
     # Getters && Setters
     def get_state(self):
