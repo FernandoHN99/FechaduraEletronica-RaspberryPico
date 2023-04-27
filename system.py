@@ -25,8 +25,8 @@ class System:
                 self._pir01.set_state(1)                                             # Atualiza o estado anterior do senso
                 self._display01.write_full("Movimento detectado!", 40, 3)
                 self._pir01.pause_detection()
-                
-                # Códido da tag Restanto
+
+                # Códido da tag
 
                     # Códido do infravermelho
 
