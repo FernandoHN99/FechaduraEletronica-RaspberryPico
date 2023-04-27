@@ -9,23 +9,34 @@ class Motion_Detector:
         self._state             = None                        # Variável global para armazenar o estado atual do sensor
         self._last_state        = None                        # Variável global para armazenar o estado anterior do sensor
 
-    # Inicializa o sensor
-    def start(self):
-        self._detector.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.detector_callback) # Sensor fica aguardando qualquer mudança de estado
-        self._state       = self._detector.value()
-        self._last_state  = self._detector.value()
-
     # Atualiza a variável global pir_state com o valor do pino
     def detector_callback(self):
         self._state = self._detector.value()
     
+    # Inicializa e DESpausa a detecção de movimento
+    def start_detection(self):
+        if(self._interruption_mode):
+            self._detector.irq(trigger=Pin.IRQ_RISING | Pin.IRQ_FALLING, handler=self.detector_callback) # Sensor fica aguardando qualquer mudança de estado
+        else:
+            self.pause_detection()
+        self._last_state  = self._detector.value()
+        self._state       = self._detector.value()
+
     # Pausa a detecção de movimento
     def pause_detection(self):
         self._detector.irq(trigger=None)
+    
+    # Faz com que os valores sejam atualizados constantemente
+    def no_interruption_function(self):             
+        if (not self._interruption_mode):  
+            self._state = self._detector.value()
 
     # Getters && Setters
     def get_state(self):
         return self._state
+
+    def get_detector(self):
+        return self._detector
 
     def get_last_state(self):
         return self._last_state
