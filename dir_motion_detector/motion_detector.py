@@ -5,13 +5,13 @@ class Motion_Detector:
     def __init__(self, raspberry_pin, interruption_mode=True):
         self._raspberry_pin     = raspberry_pin               # Define o pino do Raspberry Pi Pico conectado ao módulo PIR HC-SR501
         self._interruption_mode = interruption_mode           # Habilita o uso de interrupção para o sensor
-        self._detector          = Pin(raspberry_pin, Pin.IN)  # Configura o pino da saída digital do sensor
-        self._state             = None                        # Variável global para armazenar o estado atual do sensor
-        self._last_state        = None                        # Variável global para armazenar o estado anterior do sensor
+        self._detector          = Pin(self._raspberry_pin, Pin.IN)  # Configura o pino da saída digital do sensor
+        self._state             = 0                        # Variável global para armazenar o estado atual do sensor
+        self._last_state        = 0                        # Variável global para armazenar o estado anterior do sensor
 
     # Atualiza a variável global pir_state com o valor do pino
-    def detector_callback(self):
-        self._state = self._detector.value()
+    def detector_callback(self, pin):
+        self._state = pin.value()
     
     # Inicializa e DESpausa a detecção de movimento
     def start_detection(self):
@@ -28,7 +28,7 @@ class Motion_Detector:
     
     # Faz com que os valores sejam atualizados constantemente
     def no_interruption_function(self):             
-        if (not self._interruption_mode):  
+        if(not self._interruption_mode):  
             self._state = self._detector.value()
 
     # Getters && Setters
@@ -42,10 +42,14 @@ class Motion_Detector:
         return self._last_state
     
     def get_interruption_mode(self):
-        return self._interruption_mode()
+        return self._interruption_mode
 
-    def set_state(state):
+    def set_state(self, state):
         self._state = state
 
-    def set_last_state(last_state):
+    def set_last_state(self, last_state):
         self._last_state = last_state
+
+
+
+

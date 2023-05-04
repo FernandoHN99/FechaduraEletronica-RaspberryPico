@@ -1,11 +1,11 @@
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dir_util.util import Util
 
 # Importa as classes Pin e SPI da biblioteca machine para controlar o hardware do Raspberry Pi Pico
 from machine import Pin, SPI
 # Importa a classe SSD1306_SPI da biblioteca ssd1306.py
-from ssd1306 import SSD1306_SPI
+from dir_display_oled.ssd1306 import SSD1306_SPI
 
 
 class Display_Oled:
@@ -16,29 +16,33 @@ class Display_Oled:
         self._display_dc    = display_dc     # pino display data_comand
         self._display_rst   = display_rst    # pino display reset
         self._display_cs    = display_cs     # pino display chip select
+        self._display 		= None
 
     def start(self):
         spi0 = SPI(0, baudrate=1000000, polarity=1, phase=0, sck=Pin(self._rasp_sck), mosi=Pin(self._rasp_mosi), miso=Pin(self._rasp_miso))
-        display = SSD1306_SPI(128, 32, spi0, Pin(self._display_dc), Pin(self._display_rst), Pin(self._display_cs))
+        self._display = SSD1306_SPI(128, 32, spi0, Pin(self._display_dc), Pin(self._display_rst), Pin(self._display_cs))
 
     def write(self, msg, x, y, color=1):
-        display.text(msg, x, y, color)
+        self._display.text(msg, x, y, color)
 
     def write_full(self, msg, x, y, color=1, timer=0):
-        self.clear()
+        self._display.fill(0)
         self.write(msg, x, y, color)
-        self.display_show()
+        self.show()
         Util.wait_sec(timer)
+        self.clear()
 
     def vline(self, x, y, hgt, color=1):
-        display.vline(x, y, hgt, color)
+        self._display.vline(x, y, hgt, color)
 
     def rectangle(self, xa, ya, xb, yb, finish, color=1):
-        display.text(xa, ya, xb, yb, color)
+        self._display.text(xa, ya, xb, yb, color)
     
     def show(self):
-        display.show()
+        self._display.show()
 
     def clear(self):
-        display.fill(0)
+        self._display.fill(0)
+        self.show()
+
 
