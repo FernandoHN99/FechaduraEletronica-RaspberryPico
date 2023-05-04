@@ -26,12 +26,11 @@ class Display_Oled:
         self._display.text(msg, x, y, color)
 
     def write_full(self, msg, x, y, color=1, timer=0):
-        self.clear()
+        self._display.fill(0)
         self.write(msg, x, y, color)
         self.show()
         Util.wait_sec(timer)
         self.clear()
-        self.show()
 
     def vline(self, x, y, hgt, color=1):
         self._display.vline(x, y, hgt, color)
@@ -44,5 +43,6 @@ class Display_Oled:
 
     def clear(self):
         self._display.fill(0)
+        self.show()
 
 
