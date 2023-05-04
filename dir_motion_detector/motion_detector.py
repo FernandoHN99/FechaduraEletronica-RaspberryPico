@@ -24,7 +24,7 @@ class Motion_Detector:
 
     # Pausa a detecção de movimento
     def pause_detection(self):
-        self._detector.irq(trigger=None)
+        self._detector.irq(trigger=0)
     
     # Faz com que os valores sejam atualizados constantemente
     def no_interruption_function(self):             

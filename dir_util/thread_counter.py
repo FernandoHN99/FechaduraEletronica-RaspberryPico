@@ -16,10 +16,3 @@ class Thread_Counter:
     
     def get_running(self):
         return self._running
-
-if __name__ == '__main__':
-    t1 = Thread_Counter(5)
-    while(t1.get_running()):
-        print(t1.get_running())
-        print("Rodando")
-    print("fim")

@@ -19,16 +19,16 @@ class System:
     def run(self):
         # Display
         self._display01.start()
-        self._display01.write_full("Init display", 1, 3, timer=2)
+        self._display01.write_full("Init display", 1, 3, timer=1)
         
         # PIR HC-SR501 - Sensor movimento
         self._pir01.start_detection()
-        self._display01.write_full("Init Sensor Mov", 1, 3, timer=2)
+        self._display01.write_full("Init Sensor Mov", 1, 3, timer=1)
 
         # Tag RFID              --> Inicializado porém pausado
         self._tag01.start()
         self._tag01.pause()
-        self._display01.write_full("Init RFID Tag", 1, 3, timer=2)
+        self._display01.write_full("Init RFID Tag", 1, 3, timer=1)
 
         # Sensor Infravermelho
         # self._infrared01.start_detection()
@@ -42,14 +42,15 @@ class System:
         self._pir01.set_last_state(1)
         self._display01.clear()                                             # Atualiza o estado anterior do senso
         self._display01.write("Aproxime", 5, 1)
-        self._display01.write("a TAG!", 5, 3)
+        self._display01.write("a TAG!", 5, 15)
         self._display01.show()
+        
         # self._pir01.pause_detection()
     
     def pir01_undetected(self):
         self._pir01.set_last_state(0)                                            # Atualiza o estado anterior do senso
         self._display01.clear()
-        self._display01.write_full("Até mais!", 1, 3, timer=3)               # Somente para testes
+        self._display01.write_full("Ate mais!", 1, 3, timer=1)               # Somente para testes
 
     
 #     def set_tag01_on(self):
@@ -97,7 +98,9 @@ class System:
                     if(card in self._tag01.get_list_cards()):                                 # vermos o cartao no print (depois apagar)
                         self._pir01.pause_detection()                       # pausa o sensor de presenca de pessoas
                         self._counter_closed_door = 0                       # Inicia a contagem
-                        self._display01.write_full("Autorizado!", 1, 3, timer=2) 
+                        self._display01.write_full("Autorizado!", 1, 3)
+                        
+                        self._pir01.start_detection()
 
 
 
@@ -127,10 +130,10 @@ class System:
                     #             break
 
                     elif(card != None):
-                        self._display01.write_full("Não autorizado!", 1, 3, timer=2)  
+                        self._display01.write_full("Nao autorizado!", 1, 3, timer=2)  
 
-                    else:     
-                        self._display01.write_full("Sem Cartão!", 1, 3, timer=2)                     
+#                     else:     
+#                         self._display01.write_full("Sem Cartao!", 1, 3)                     
 
                 if(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                     self.pir01_undetected()
