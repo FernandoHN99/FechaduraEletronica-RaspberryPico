@@ -1,8 +1,4 @@
-import os
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dir_util.util import Util
-
-# Importa as classes Pin e SPI da biblioteca machine para controlar o hardware do Raspberry Pi Pico
 from machine import Pin, SPI
 # Importa a classe SSD1306_SPI da biblioteca ssd1306.py
 from dir_display_oled.ssd1306 import SSD1306_SPI
@@ -29,8 +25,9 @@ class Display_Oled:
         self._display.fill(0)
         self.write(msg, x, y, color)
         self.show()
-        Util.wait_sec(timer)
-        self.clear()
+        if(timer != 0):
+            Util.wait_sec(timer)
+            self.show()
 
     def vline(self, x, y, hgt, color=1):
         self._display.vline(x, y, hgt, color)
@@ -43,6 +40,6 @@ class Display_Oled:
 
     def clear(self):
         self._display.fill(0)
-        self.show()
+        
 
 
