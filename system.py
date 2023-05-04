@@ -100,7 +100,7 @@ class System:
                         self._counter_closed_door = 0                       # Inicia a contagem
                         self._display01.write_full("Autorizado!", 1, 3)
                         
-                        self._pir01.start_detection()
+                        self._pir01.start_detection() # checar essa linha
 
 
 
