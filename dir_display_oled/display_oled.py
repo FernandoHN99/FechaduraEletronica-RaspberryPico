@@ -24,10 +24,19 @@ class Display_Oled:
     def write_full(self, msg, x, y, color=1, timer=0):
         self._display.fill(0)
         self.write(msg, x, y, color)
-        self.show()
+        self._display.show()
         if(timer != 0):
             Util.wait_sec(timer)
-            self.show()
+            self.write_blank()
+
+    def write_blank(self, timer=0):
+        self._display.fill(0)
+        self._display.show()
+        Util.wait_sec(timer)
+        
+    def write_blinking(self, msg, x, y, timer_msg, timer_blink=0.25, color=1):
+        self.write_blank(timer_blink)
+        self._display01.write_full(msg, 1, 3, timer=timer_msg)
 
     def vline(self, x, y, hgt, color=1):
         self._display.vline(x, y, hgt, color)
@@ -41,5 +50,6 @@ class Display_Oled:
     def clear(self):
         self._display.fill(0)
         
+
 
 
