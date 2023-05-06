@@ -11,10 +11,9 @@ class System:
         self._pir01                 = Motion_Detector(raspberry_pin=14)
         self._infrared01            = Infrared_Detector(raspberry_pin=15, debounce_time=10, interruption_mode=False)
         self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0, list_cards=[296151778, 2042233364])
-        self._time_closed_door      = 5
-        self._time_opened_door      = 10
         self._t1_control            = Thread_Counter()
-        self._time_flow_control     =   10
+        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 3}
+        self._time_flow_control     = 10
 
     def run(self):
         # Display
@@ -56,8 +55,16 @@ class System:
         self._t1_control.stop()
         self._t1_control = Thread_Counter()
     
-    def check_t1_init(self):
-        return self._t1_control.get_counter_limit() != None
+    
+    def close_door(self):
+        self.reset_thread()
+        # comando para disparar o motor para trancar a porta
+        self._display01.write_full("Porta Trancada!", 1, 3, timer=2)
+        self._pir01.start_detection()
+    
+    def check_indiviual_time(self, key):
+        return self._t1_control.get_counter_limit() == self._dic_times_t1[key]
+    
 
 
 #     # Monitoramento Maçaneta
@@ -82,13 +89,10 @@ class System:
                             Util.wait_ms(self._time_flow_control)
                             self._infrared01.update_state()
 
-                            print("Sate: ", self._infrared01.get_state())
-                            print("Last State: ", self._infrared01.get_last_state())
-
                             # Verifica se é a primeira vez que porta está aberta
                             if(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 0):
                                 
-                                self._t1_control.start(self._time_opened_door)  # Thread iniciada
+                                self._t1_control.start(self._dic_times_t1["opened"])  # Thread iniciada
                                 self._infrared01.set_last_state(1)                                      
                                 
                             # Verifica se a se a porta está aberta porem nao eh a primeira vez
@@ -106,36 +110,35 @@ class System:
 
                             # Verifica se é a primeira vez porta está fechada
                             elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 1):  
-                                self._infrared01.set_last_state(0)                       
+                                self._infrared01.set_last_state(0)       
                             
                             # Verifica se a porta está fechada porem nao eh a primeira vez
                             elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 0):
                                 
-                                if(self.check_t1_init()):
+                                if(self._t1_control.check_thread()):
                                 
-                                    if(self._t1_control.get_counter_limit() == self._time_opened_door):
-                                        self.reset_thread()
-                                        # comando para disparar o motor para trancar a porta
-                                        self._display01.write_full("Porta Trancada!", 1, 3, timer=2)
-                                        self._pir01.start_detection()
-                                        print("BREAK-1")
-                                        break
+                                    if(self.check_indiviual_time("semi-closed")):
 
- 
+                                        if(self._t1_control.is_running()):
+                                            self._display01.write_full(f"Aguarde! {self._t1_control._counter}", 1, 3)
+
+                                        else:
+                                            self.close_door()
+                                            break
+
+                                    elif(self.check_indiviual_time("opened")):
+                                        self._t1_control.start(self._dic_times_t1["semi-closed"]) # Thread iniciada
+                                       
+
                                     elif(self._t1_control.is_running()):
                                         self._display01.write_full(f"Autorizado! {self._t1_control._counter}", 1, 3)
 
                                     else:
-                                        self.reset_thread()
-                                        # comando para disparar o motor para trancar a porta
-                                        self._display01.write_full("Porta Trancada!", 1, 3, timer=2)
-                                        self._pir01.start_detection()        
-                                        print("BREAK-2")
+                                        self.close_door()     
                                         break
                             
                                 else:
-                                    print("Start thread - 5 seg")
-                                    self._t1_control.start(self._time_closed_door) # Thread iniciada
+                                    self._t1_control.start(self._dic_times_t1["closed"]) # Thread iniciada
                                     
                     elif(card != None):
                         self._display01.write_full("Nao autorizado!", 1, 3, timer=2)  
@@ -149,6 +152,7 @@ class System:
 
 if __name__ == '__main__':
      System().run()
+
 
 
 

@@ -14,9 +14,8 @@ class Thread_Counter:
 
         while self._running == True: 
             Util.wait_ms(10)
-            # print("self._running: ", self._running)
 
-        # print("Iniciei a nova thread")
+
         self._my_thread  = _thread.start_new_thread(self.contar, (counter_limit,))
     
     def stop(self):
@@ -37,8 +36,9 @@ class Thread_Counter:
             Util.wait_sec(1)
             self._counter -= 1
         self.set_control_variables(False)
-        # print("Parei a Thread")
-
+    
+    def check_thread(self):
+        return self.get_counter_limit() != None
     
     def is_running(self):
         return self._running
@@ -46,4 +46,5 @@ class Thread_Counter:
     def get_counter_limit(self):
         return self._counter_limit    
     
+
 
