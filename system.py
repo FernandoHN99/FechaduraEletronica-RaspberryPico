@@ -10,10 +10,12 @@ class System:
         self._display01             = Display_Oled(rasp_sck=2, rasp_mosi=3, rasp_miso=4, display_dc=0, display_rst=1, display_cs=5)
         self._pir01                 = Motion_Detector(raspberry_pin=14)
         self._infrared01            = Infrared_Detector(raspberry_pin=15, debounce_time=10, interruption_mode=False)
-        self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0, list_cards=[296151778, 2042233364])
+        self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
+        self._list_cards            = list_cards=[296151778, 2042233364]
         self._t1_control            = Thread_Counter()
         self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 3}
         self._time_flow_control     = 10
+        self._card                  = None
 
     def run(self):
         # Display
@@ -73,6 +75,13 @@ class System:
         self._display01.clear()
         self._display01.write_full("Ate mais! ;)", 1, 3, timer=2)
         self._display01.write_blank()
+    
+    def check_invasao(self):
+        self._card = self._list_cards[0]
+        while(self._infrared01.get_state() == 1 or self._card not in self._list_cards):
+            self._display01.write_blinking("!! INVASAO !!", 1, 3, timer_msg=0.75)
+            self._card = self._tag01.read_card()
+        self._card = None
 
 
     # Monitoramento Maçaneta
@@ -86,10 +95,10 @@ class System:
                 
                 while(self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1):
                     self.time_flow()
-                    card = self._tag01.read_card()
                     self.msg_person_detected()
+                    self._card = self._tag01.read_card()
 
-                    if(card in self._tag01.get_list_cards()):
+                    if(self._card in self._list_cards):
                         self._t1_control = Thread_Counter()                 # Iniciaiza a thread, porem sem o start
                         self._pir01.pause_detection()                       # Pausa o sensor de presenca de pessoas
 
@@ -144,15 +153,17 @@ class System:
                                 else:
                                     self._t1_control.start(self._dic_times_t1["closed"]) # Thread iniciada
                                     
-                    elif(card != None):
+                    elif(self._card != None):
                         self._display01.write_full("Nao autorizado!", 1, 3, timer=2)  
-                                
+
+                    self.check_invasao()
+
             elif(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                 self._pir01.set_last_state(0)                                            # Atualiza o estado anterior do senso
                 self.msg_person_undetected()
-            # else:
-            #     self._display01.write_full("", 1, 3) 
-
+            
+            self.check_invasao()
+                
 
 if __name__ == '__main__':
      System().run()
