@@ -27,9 +27,8 @@ class Motion_Detector:
         self._detector.irq(trigger=0)
     
     # Faz com que os valores sejam atualizados constantemente
-    def no_interruption_function(self):             
-        if(not self._interruption_mode):  
-            self._state = self._detector.value()
+    def update_state(self):             
+        self._state = self._detector.value()
 
     # Getters && Setters
     def get_state(self):
@@ -49,6 +48,7 @@ class Motion_Detector:
 
     def set_last_state(self, last_state):
         self._last_state = last_state
+
 
 
 

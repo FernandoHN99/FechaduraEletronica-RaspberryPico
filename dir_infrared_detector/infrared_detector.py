@@ -1,7 +1,6 @@
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dir_motion_detector.motion_detector import Motion_Detector
 from dir_util.util import Util
+
 
 # Importa a classe Pin da biblioteca machine para controlar o hardware do Raspberry Pi Pico
 from machine import Pin
@@ -13,9 +12,9 @@ class Infrared_Detector(Motion_Detector):
 
     
     def trusted_signal(self):
-        if(self._infrared01.get_state() != self._infrared01.get_last_state()):     # Verifica se o estado do sensor mudou 
+        if(super().get_state() != super().get_last_state()):     # Verifica se o estado do sensor mudou 
             Util.wait_ms(self._debounce_time)
-            super().no_interruption_function()
+            super().update_state()
 
     # Getters && Setters
     def get_debounce_time(self):
@@ -23,3 +22,4 @@ class Infrared_Detector(Motion_Detector):
 
     def set_debounce_time(self, debounce_time):
         self._debounce_time = debounce_time
+
