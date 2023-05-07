@@ -13,7 +13,7 @@ class System:
         self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
         self._list_cards            = list_cards=[296151778, 2042233364]
         self._t1_control            = Thread_Counter()
-        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 3}
+        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 3, "intrusion": 5}
         self._time_flow_control     = 10
         self._card                  = None
 
@@ -26,9 +26,7 @@ class System:
         self._pir01.start_detection()
         self._display01.write_full("Init Sensor Mov", 1, 3, timer=0.2)
 
-        # Tag RFID              --> Inicializado porém pausado
-        self._tag01.start()
-        self._tag01.pause()
+        # Tag RFID              --> Inicializado na Instância
         self._display01.write_full("Init RFID Tag", 1, 3, timer=0.2)
 
         # Sensor Infravermelho
@@ -42,15 +40,16 @@ class System:
         Util.wait_ms(self._time_flow_control)
     
     def reset_thread(self):
-        self._t1_control.stop()
-        self._t1_control = Thread_Counter()
+        if self._t1_control.check_thread():
+            self._t1_control.stop()
+            self._t1_control = Thread_Counter()
     
     def close_door(self):
         self.reset_thread()
         # comando para disparar o motor para trancar a porta
         self._display01.write_full("Porta Trancada!", 1, 3, timer=2)
         self._pir01.start_detection()
-    
+
     def check_indiviual_time(self, key):
         return self._t1_control.get_counter_limit() == self._dic_times_t1[key]
     
@@ -62,7 +61,7 @@ class System:
     def msg_opened_door(self):
         self._display01.clear()
         self._display01.write("Porta", 20, 3)
-        self._display01.write(f"Aberta {self._t1_control._counter}", 20, 15)
+        self._display01.write(f"Aberta {self._t1_control.get_counter()}", 20, 15)
         self._display01.show()
     
     def msg_person_detected(self):
@@ -76,16 +75,34 @@ class System:
         self._display01.write_full("Ate mais! ;)", 1, 3, timer=2)
         self._display01.write_blank()
     
+    def msg_intrusion_solution(self):
+        self._display01.clear()                                             # Atualiza o estado anterior do senso
+        self._display01.write("Mantenha o ", 10, 1)
+        self._display01.write("por cartao", 10, 10)
+        self._display01.write(f"{self._t1_control.get_counter()} segundos", 10, 20)
+        self._display01.show()
+    
     def check_invasao(self):
-        self._card = self._list_cards[0]
         while(self._infrared01.get_state() == 1):
+            self.time_flow()
+            
+            while(self._tag01.read_card() in self._list_cards):
 
-            if(self._tag01.read_card() in self._list_cards):
-                self.flow_door_handle()
-                break
+                self.time_flow()
+                if(self._t1_control.check_thread()):
+                    
+                    if(self._t1_control.is_running()):
+                        self.msg_intrusion_solution()
 
-            # self._infrared01.update_state()
+                    else:
+                        self.flow_door_handle()
+                        self.reset_thread()
+                        return
+                else:
+                    self._t1_control.start(self._dic_times_t1["intrusion"])
+            
             self._display01.write_blinking("!! INVASAO !!", 1, 3, timer_msg=0.75)
+            self.reset_thread()
 
     
     def flow_door_handle(self):
@@ -121,7 +138,7 @@ class System:
                     if(self.check_indiviual_time("semi-closed")):
 
                         if(self._t1_control.is_running()):
-                            self._display01.write_full(f"Aguarde {self._t1_control._counter}...", 1, 3)
+                            self._display01.write_full(f"Aguarde {self._t1_control.get_counter()}...", 1, 3)
                         else:
                             self.close_door()
                             break
@@ -129,7 +146,7 @@ class System:
                     elif(self.check_indiviual_time("opened")):
                         self._t1_control.start(self._dic_times_t1["semi-closed"]) # Thread iniciada
                     elif(self._t1_control.is_running()):
-                        self._display01.write_full(f"Autorizado! {self._t1_control._counter}", 1, 3)
+                        self._display01.write_full(f"Autorizado! {self._t1_control.get_counter()}", 1, 3)
                     else:
                         self.close_door()     
                         break
