@@ -78,10 +78,65 @@ class System:
     
     def check_invasao(self):
         self._card = self._list_cards[0]
-        while(self._infrared01.get_state() == 1 or self._card not in self._list_cards):
+        while(self._infrared01.get_state() == 1):
+
+            if(self._tag01.read_card() in self._list_cards):
+                self.flow_door_handle()
+                break
+
+            # self._infrared01.update_state()
             self._display01.write_blinking("!! INVASAO !!", 1, 3, timer_msg=0.75)
-            self._card = self._tag01.read_card()
-        self._card = None
+
+    
+    def flow_door_handle(self):
+        self._t1_control = Thread_Counter()                 # Iniciaiza a thread, porem sem o start
+        self._pir01.pause_detection()                       # Pausa o sensor de presenca de pessoas
+
+        while(True):
+            self.time_flow()
+            self._infrared01.update_state()
+
+            # Verifica se é a primeira vez que porta está aberta
+            if(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 0):
+                self._t1_control.start(self._dic_times_t1["opened"])  # Thread iniciada
+                self._infrared01.set_last_state(1)                                      
+                
+            # Verifica se a se a porta está aberta porem nao eh a primeira vez
+            elif(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 1): 
+
+                if(self._t1_control.is_running()):
+                    self.msg_opened_door()
+                else:
+                    self._display01.write_blinking("Fechar a porta!!!", 1, 3, timer_msg=0.75)
+
+            # Verifica se é a primeira vez porta está fechada
+            elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 1):  
+                self._infrared01.set_last_state(0)       
+            
+            # Verifica se a porta está fechada porem nao eh a primeira vez
+            elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 0):
+                
+                if(self._t1_control.check_thread()):
+                
+                    if(self.check_indiviual_time("semi-closed")):
+
+                        if(self._t1_control.is_running()):
+                            self._display01.write_full(f"Aguarde {self._t1_control._counter}...", 1, 3)
+                        else:
+                            self.close_door()
+                            break
+
+                    elif(self.check_indiviual_time("opened")):
+                        self._t1_control.start(self._dic_times_t1["semi-closed"]) # Thread iniciada
+                    elif(self._t1_control.is_running()):
+                        self._display01.write_full(f"Autorizado! {self._t1_control._counter}", 1, 3)
+                    else:
+                        self.close_door()     
+                        break
+            
+                else:
+                    self._t1_control.start(self._dic_times_t1["closed"]) # Thread iniciada
+                                    
 
 
     # Monitoramento Maçaneta
@@ -99,60 +154,8 @@ class System:
                     self._card = self._tag01.read_card()
 
                     if(self._card in self._list_cards):
-                        self._t1_control = Thread_Counter()                 # Iniciaiza a thread, porem sem o start
-                        self._pir01.pause_detection()                       # Pausa o sensor de presenca de pessoas
+                        self.flow_door_handle()
 
-                        while(True):
-                            self.time_flow()
-                            self._infrared01.update_state()
-
-                            # Verifica se é a primeira vez que porta está aberta
-                            if(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 0):
-                                
-                                self._t1_control.start(self._dic_times_t1["opened"])  # Thread iniciada
-                                self._infrared01.set_last_state(1)                                      
-                                
-                            # Verifica se a se a porta está aberta porem nao eh a primeira vez
-                            elif(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 1): 
-
-                                if(self._t1_control.is_running()):
-                                    self.msg_opened_door()
-
-                                else:
-                                    self._display01.write_blinking("Fechar a porta!!!", 1, 3, timer_msg=0.75)
-
-                            # Verifica se é a primeira vez porta está fechada
-                            elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 1):  
-                                self._infrared01.set_last_state(0)       
-                            
-                            # Verifica se a porta está fechada porem nao eh a primeira vez
-                            elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 0):
-                                
-                                if(self._t1_control.check_thread()):
-                                
-                                    if(self.check_indiviual_time("semi-closed")):
-
-                                        if(self._t1_control.is_running()):
-                                            self._display01.write_full(f"Aguarde {self._t1_control._counter}...", 1, 3)
-
-                                        else:
-                                            self.close_door()
-                                            break
-
-                                    elif(self.check_indiviual_time("opened")):
-                                        self._t1_control.start(self._dic_times_t1["semi-closed"]) # Thread iniciada
-                                       
-
-                                    elif(self._t1_control.is_running()):
-                                        self._display01.write_full(f"Autorizado! {self._t1_control._counter}", 1, 3)
-
-                                    else:
-                                        self.close_door()     
-                                        break
-                            
-                                else:
-                                    self._t1_control.start(self._dic_times_t1["closed"]) # Thread iniciada
-                                    
                     elif(self._card != None):
                         self._display01.write_full("Nao autorizado!", 1, 3, timer=2)  
 
