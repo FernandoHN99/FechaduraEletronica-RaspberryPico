@@ -10,6 +10,7 @@ class Infrared_Detector(Motion_Detector):
         super().__init__(raspberry_pin, interruption_mode)
         self._debounce_time  = debounce_time               # Define o tempo de debounce para o sensor em ms
 
+    
     def trusted_signal(self):
         if(super().get_state() != super().get_last_state()):     # Verifica se o estado do sensor mudou 
             Util.wait_ms(self._debounce_time)

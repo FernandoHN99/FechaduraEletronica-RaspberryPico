@@ -17,6 +17,8 @@ while True:
         if stat == reader.OK:
             card = int.from_bytes(bytes(uid),"little",False)
             print("CARD ID: "+str(card))
+        else: 
+            print("Nulo")
     else: 
         print("Nulo")
     

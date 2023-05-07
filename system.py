@@ -13,25 +13,21 @@ class System:
         self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
         self._list_cards            = list_cards=[296151778, 2042233364]
         self._t1_control            = Thread_Counter()
-        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 2, "intrusion": 5}
+        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 2, "intrusion": 5, "first-time": 3}
         self._time_flow_control     = 10
         self._card                  = None
 
     def run(self):
         # Display
         self._display01.start()
-        self._display01.write_full("Init display", 1, 3, timer=0.2)
         
         # PIR HC-SR501 - Sensor movimento
         self._pir01.start_detection()
-        self._display01.write_full("Init Sensor Mov", 1, 3, timer=0.2)
 
-        # Tag RFID              --> Inicializado na Instância
-        self._display01.write_full("Init RFID Tag", 1, 3, timer=0.2)
+        # Tag RFID  --> Inicializado na Instância
 
         # Sensor Infravermelho
         self._infrared01.start_detection()
-        self._display01.write_full("Init infra-red", 1, 3, timer=0.2)
 
         # Inicio do Monitoramento
         self.start_track()
@@ -82,8 +78,55 @@ class System:
         self._display01.write(f"{self._t1_control.get_counter()} segundos", 10, 20)
         self._display01.show()
     
+    def msg_first_initialization_01(self):
+        self._display01.clear()                                             # Atualiza o estado anterior do senso
+        self._display01.write("INICIALIZACAO",6, 1)
+        self._display01.write("______________",3, 4)
+        self._display01.write("Feche a porta!", 6, 21)
+        self._display01.show()
+
+    def msg_first_initialization_02(self):
+        self._display01.clear()                                             # Atualiza o estado anterior do senso
+        self._display01.write("INICIALIZACAO",6, 1)
+        self._display01.write("______________",3, 4)
+        self._display01.write("Aproxime a TAG!", 6, 20)
+        self._display01.show()
+    
+    def flow_init(self):
+        while(True):
+            self.time_flow()
+            self._infrared01.update_state()
+            
+            while(self._infrared01.get_state() == 0):
+                self.time_flow()
+                self._infrared01.update_state()
+
+                while(self._infrared01.get_state() == 0 and self._tag01.read_card() in self._list_cards):
+                    self._infrared01.update_state()
+                    self.time_flow()
+                
+                    if(self._t1_control.check_thread()):
+                    
+                        if(self._t1_control.is_running()):
+                            self.msg_intrusion_solution()
+
+                        else:
+                            self.close_door()
+                            return
+                    else:
+                        self._t1_control.start(self._dic_times_t1["first-time"])
+
+                if(self._infrared01.get_state() == 0):
+                    self.msg_first_initialization_02()
+                    self.reset_thread()
+
+            self.msg_first_initialization_01()
+            self.reset_thread()
+
+    
     def check_invasao(self):
         while(self._infrared01.get_state() == 1):
+            print("ENTREI")
             self.time_flow()
             
             while(self._tag01.read_card() in self._list_cards):
@@ -158,6 +201,7 @@ class System:
 
     # Monitoramento Maçaneta
     def start_track(self):
+        self.flow_init()
         while(True):  # Verifica se ocorreu uma borda de subida
             self.time_flow()
             self._infrared01.update_state()
@@ -167,6 +211,7 @@ class System:
                 
                 while(self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1):
                     self.time_flow()
+                    self._infrared01.update_state()
                     self.msg_person_detected()
                     self._card = self._tag01.read_card()
 
@@ -187,3 +232,4 @@ class System:
 
 if __name__ == '__main__':
      System().run()
+

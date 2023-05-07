@@ -48,3 +48,8 @@ class Motion_Detector:
 
     def set_last_state(self, last_state):
         self._last_state = last_state
+
+
+
+
+

@@ -41,8 +41,8 @@ class Display_Oled:
     def vline(self, x, y, hgt, color=1):
         self._display.vline(x, y, hgt, color)
 
-    def rectangle(self, xa, ya, xb, yb, finish, color=1):
-        self._display.text(xa, ya, xb, yb, color)
+    def rectangle(self, xa, ya, xb, yb, color=1):
+        self._display.fill_rect(xa, ya, xb, yb, color)
     
     def show(self):
         self._display.show()
