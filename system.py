@@ -13,7 +13,7 @@ class System:
         self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
         self._list_cards            = list_cards=[296151778, 2042233364]
         self._t1_control            = Thread_Counter()
-        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 3, "intrusion": 5}
+        self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 2, "intrusion": 5}
         self._time_flow_control     = 10
         self._card                  = None
 
@@ -146,7 +146,7 @@ class System:
                     elif(self.check_indiviual_time("opened")):
                         self._t1_control.start(self._dic_times_t1["semi-closed"]) # Thread iniciada
                     elif(self._t1_control.is_running()):
-                        self._display01.write_full(f"Autorizado! {self._t1_control.get_counter()}", 1, 3)
+                        self._display01.write_full(f"Porta fechada! {self._t1_control.get_counter()}", 1, 3)
                     else:
                         self.close_door()     
                         break

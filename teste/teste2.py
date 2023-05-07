@@ -1,31 +1,27 @@
 from dir_rfid_RC522.mfrc522 import MFRC522
 from dir_util.util import Util
+import utime
 
-class RFID_RC522:
-    def __init__(self, rasp_sck, rasp_miso, rasp_mosi, rfid_cs, rfid_rst, rfid_spi_id):
-        self._reader = MFRC522(sck=rasp_sck, miso=rasp_miso, mosi=rasp_mosi, cs=rfid_cs, rst=rfid_rst, spi_id=rfid_spi_id)
-
-    def start(self):
-        self._reader.init()
+reader = MFRC522(spi_id=0,sck=6,miso=4,mosi=7,cs=17,rst=22)
+ 
+print("Bring TAG closer...")
+print("")
+ 
+cont = 0
+while True:
+    cont+=1
+    reader.init()
+    (stat, tag_type) = reader.request(reader.REQIDL)
+    if stat == reader.OK:
+        (stat, uid) = reader.SelectTagSN()
+        if stat == reader.OK:
+            card = int.from_bytes(bytes(uid),"little",False)
+            print("CARD ID: "+str(card))
+    else: 
+        print("Nulo")
     
-    def read_card(self):
-        self._reader.init()
-        (stat, tag_type) = self._reader.request(self._reader.REQIDL)
-        if stat == self._reader.OK:
-            (stat, uid) = self._reader.SelectTagSN()
-            if stat == self._reader.OK:
-                return int.from_bytes(bytes(uid),"little",False)
-            else:
-                return None
-        else:
-            return None
+            
 
-tag01  = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
-# tag01.start()
-while(True):
-    card = tag01.read_card()
-    Util.wait_sec(1)
-    print(card)
-
+    
 
 
