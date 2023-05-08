@@ -49,14 +49,3 @@ class Display_Oled:
 
     def clear(self):
         self._display.fill(0)
-        
-
-
-
-
-display01             = Display_Oled(rasp_sck=2, rasp_mosi=3, rasp_miso=4, display_dc=0, display_rst=1, display_cs=5)
-display01.start()
-
-display01.write("Porta Trancada!", 6, 10)
-
-display01.show()

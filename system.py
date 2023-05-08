@@ -123,6 +123,13 @@ class System:
             self._display01.clear()        
         self._display01.show()
     
+    def msg_not_authorized(self):
+        self._display01.clear()
+        self._display01.write("NAO", 55, 5)
+        self._display01.write("AUTORIZADO", 30, 18)
+        self._display01.show()
+        Util.wait_sec(2)
+    
     def msg_first_initialization_01(self):
         self._display01.clear()
         self._display01.write("INICIALIZACAO",6, 0)
@@ -265,8 +272,7 @@ class System:
                         self.flow_allowed_access()
 
                     elif(self._card != None):
-                        self.flow_allowed_access()
-                        # self._display01.write_full("Nao autorizado!", 1, 3, timer=2)  
+                        self.msg_not_authorized()
 
                     self.flow_intrusion()
 
