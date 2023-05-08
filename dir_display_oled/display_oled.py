@@ -24,16 +24,25 @@ class Display_Oled:
     def write_full(self, msg, x, y, color=1, timer=0):
         self._display.fill(0)
         self.write(msg, x, y, color)
-        self.show()
+        self._display.show()
         if(timer != 0):
             Util.wait_sec(timer)
-            self.show()
+            self.write_blank()
+
+    def write_blank(self, timer=0):
+        self._display.fill(0)
+        self._display.show()
+        Util.wait_sec(timer)
+        
+    def write_blinking(self, msg, x, y, timer_msg, timer_blink=0.25, color=1):
+        self.write_blank(timer_blink)
+        self.write_full(msg, 1, 3, timer=timer_msg)
 
     def vline(self, x, y, hgt, color=1):
         self._display.vline(x, y, hgt, color)
 
-    def rectangle(self, xa, ya, xb, yb, finish, color=1):
-        self._display.text(xa, ya, xb, yb, color)
+    def rectangle(self, xa, ya, xb, yb, color=1):
+        self._display.fill_rect(xa, ya, xb, yb, color)
     
     def show(self):
         self._display.show()
@@ -43,3 +52,11 @@ class Display_Oled:
         
 
 
+
+
+display01             = Display_Oled(rasp_sck=2, rasp_mosi=3, rasp_miso=4, display_dc=0, display_rst=1, display_cs=5)
+display01.start()
+
+display01.write("Porta Trancada!", 6, 10)
+
+display01.show()
