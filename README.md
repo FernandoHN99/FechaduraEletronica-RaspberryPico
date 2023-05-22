@@ -1,4 +1,4 @@
-# Projeto Raspberry Pi Pico
+# Maçaneta Eletrônica com Raspberry Pi Pico
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
@@ -24,13 +24,13 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
  * [Thonny Python IDE](https://thonny.org/)
  * [MicroPython firmware](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3)
 
-# 🚀 Instalação
+## 🚀 Instalação
 
-###  Esquema Elétrico {topic-1}
+###  Esquema Elétrico
 
 < Foto Final do Esquema Elétrico >
 
-###  Diagrama de Blocos ?
+###  Diagrama de Blocos
 
 < Foto Final do Diagrama de Blocos>
 
@@ -44,7 +44,8 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 3. Abrir a IDE Thonny
     
-3. Fazer a SOMENTE a instalção do MicroPython firmware conforme a documentação: https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3
+3. Fazer a SOMENTE a instalção do MicroPython firmware conforme a documentação
+    - https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3
 
 4. Armazene todos os arquivos listados neste repositório dentro do Raspberry Pi Pico.
 
