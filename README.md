@@ -4,6 +4,15 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
 
 < Foto Final do Projeto >
 
+## ⚙️ Funcionalidades do Sistema 
+
+### 🕺🏼 Detector de presença de pessoas para ativação da fechadura.
+### 🚫 ✅ Controle de autorização de acesso via aproximação de cartão TAG.
+### 🚪 Exibição de mensagens ao usuário conforme o estado da porta (aberta ou fechada).
+### 🚨 Deteção de Invasão.
+
+<br>
+
 ## 🎬 Começando
 
 Essas instruções permitirão que você consiga realizar uma cópia do projeto em operação n seu Raspberry para fins de desenvolvimento e teste.
@@ -18,6 +27,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
  * [Trava Eletrica Solenoide 12 Volts](https://produto.mercadolivre.com.br/MLB-2187293250-mini-trava-eletrica-solenoide-12v-arduino-raspberry-_JM?quantity=1)
  * [Rele]()
  * [Botão de Arduino](https://arduinoeeletronica.com.br/produto/botao-microchave-push-button-4-pinos/)
+ * [Buzzer Simples sem módulo](https://www.acheicomponentes.com.br/circuitos-integrados/buzzer-piezo-ps1240p02bt-4khz-s-oscilador?parceiro=3811)
 
 ### Ferramentas de Software Utilizado
 
@@ -44,24 +54,32 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 3. Abrir a IDE Thonny
     
-3. Fazer a SOMENTE a instalção do MicroPython firmware conforme a documentação
-    - https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3
+3. Fazer a SOMENTE a instalção do MicroPython firmware conforme a [documentação](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3)
 
 4. Armazene todos os arquivos listados neste repositório dentro do Raspberry Pi Pico.
 
-5. Selecione o código teste.py (listado abaixo) implementado no passo 4 e o execute.
+5. Execute o código teste.py já armazenado no passo 4.
 
-6. A confirmação de sucesso na instalação dos dispositivos é obtida se uma mensagem igual a ``` !!! SUCESSO !!! ``` aparecer no display.
+6. A confirmação de sucesso na instalação dos periféricos é obtida se uma mensagem igual a ``` !!! SUCESSO !!! ``` aparecer no display.
 
 < Video Final dos Testes>
 
 > **Observação:** Se a inicialização não funcionar corretamente verifique se periféricos estão corretamente conectados em seus respectivos pinos conforme o esquema eslétrico.
 
----
+<br>
 
 ## 📦 Implantação
 
-Adicione notas adicionais sobre como implantar isso em um sistema ativo
+1. Deletar o arquivo teste.py armazenado Raspberry Pi Pico.
+
+2. Execute o arquivo system.py.
+
+3. Se a execução acontecer com sucesso renomeie o arquivo system.py para main.py.
+
+> **Observação:** Ao renomear o arquivo para main.py, toda vez que o Raspberry Pi Pico for conectado a uma fonte de energia o código contido em main.py será executado automaticamente, sem a necessidade de executar via Thonny.
+
+
+---
 
 ## ✒️ Autores
 
@@ -72,8 +90,10 @@ Adicione notas adicionais sobre como implantar isso em um sistema ativo
 * Pedro Henrique S.Hein &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20.00134-7 
 
 ---
+
+
 ## 🎁 Expressões de gratidão
 
-Agradecimentos aos professores Sergio Ribeiro Augusto e Rodrigo de Marca Franca por todo suporte para a conclusão do Projeto.
+Agradecimentos aos professores [Sergio Ribeiro Augusto](https://br.linkedin.com/in/sergio-ribeiro-augusto-258a9ba0) e [Rodrigo de Marca Franca](https://br.linkedin.com/in/rodrigo-frança-847872b1) por todo suporte para a conclusão do Projeto.
 
 
