@@ -24,8 +24,6 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
  * [Thonny Python IDE](https://thonny.org/)
  * [MicroPython firmware](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3)
 
-<br>
-
 # 🚀 Instalação
 
 ###  Esquema Elétrico {topic-1}
@@ -57,8 +55,6 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 < Video Final dos Testes>
 
 > **Observação:** Se a inicialização não funcionar corretamente verifique se periféricos estão corretamente conectados em seus respectivos pinos conforme o esquema eslétrico.
-
-<br>
 
 ---
 
