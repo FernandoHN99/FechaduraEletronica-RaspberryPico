@@ -45,7 +45,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
 
-1. Montar em uma protoboard o esquema elétrico listado anteriormente.
+1. Montar em uma protoboard o sistema conforme a seção <a href="#secao-esquema-eletrico">⤴️ Esquema Elétrico.</a>
 
 2. Utilizar um cabo Micro USB para conectar o Raspberry Pi Pico e seu computador.
     - Conectar a entrada Micro USB no Raspberry Pi Pico.
