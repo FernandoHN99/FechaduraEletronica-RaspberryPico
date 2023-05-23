@@ -6,12 +6,12 @@ from dir_util.util import Util
 from dir_util.thread_counter import Thread_Counter
 
 class System:
-    def __init__(self):
+    def __init__(self, list_cards):
         self._display01             = Display_Oled(rasp_sck=2, rasp_mosi=3, rasp_miso=4, display_dc=0, display_rst=1, display_cs=5)
         self._pir01                 = Motion_Detector(raspberry_pin=14)
         self._infrared01            = Infrared_Detector(raspberry_pin=15, debounce_time=10, interruption_mode=False)
         self._tag01                 = RFID_RC522(rasp_sck=6, rasp_miso=4, rasp_mosi=7, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
-        self._list_cards            = list_cards=[296151778]
+        self._list_cards            = list_cards
         self._t1_control            = Thread_Counter()
         self._dic_times_t1          = {"closed": 5, "opened": 10, "semi-closed": 2, "intrusion": 5, "first-time": 3}
         self._dic_y_config          = {"minimun": 0, "limit": 33, "increment": 11, "reset":-11}
@@ -288,5 +288,6 @@ class System:
                 
 
 if __name__ == '__main__':
-     System().run()
+    list_cards = [296151778]
+    System().run()
 
