@@ -73,7 +73,7 @@ Cada arquivo teste.py tem sua execução de acordo a funcionalidade do periféri
 
 > **Observação:** Se a inicialização de algum periférico não funcionar corretamente verifique se os mesmos estão corretamente conectados em seus respectivos pinos, conforme a seçao <a href="#secao-esquema-eletrico">⤴️ Esquema Elétrico</a>.
 
-<h2>📦 Implementação do Projeto Final</h2>
+<h2>📦 Implementação</h2>
 
 1. (Opcional) Deletar o diretório teste.py armazenado Raspberry Pi Pico.
 
@@ -86,7 +86,6 @@ Cada arquivo teste.py tem sua execução de acordo a funcionalidade do periféri
 
 > **Importante:** Ao renomear o arquivo para main.py, toda vez que o Raspberry Pi Pico for conectado a uma fonte de energia o código contido em main.py será executado automaticamente, sem a necessidade de executar via Thonny.
 
----
 
 <h2>✒️ Autores</h2>
 
