@@ -11,8 +11,6 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
 <h4>🚪 Exibição de mensagens ao usuário conforme o estado da porta (aberta ou fechada).</h4>
 <h4>🚨 Deteção de Invasão.</h4>
 
-<br>
-
 <h2>🎬 Começando...</h2>
 
 Essas instruções permitirão que você consiga realizar uma cópia do projeto em operação em seu Raspberry para fins de desenvolvimento e teste.
