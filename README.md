@@ -15,7 +15,7 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
 
 Essas instruções permitirão que você consiga realizar uma cópia do projeto em operação em seu Raspberry para fins de desenvolvimento e teste.
 
-<h3> 🕹️Hardwares Utilizados</h3>
+<h3>🕹️ Hardwares Utilizados</h3>
 
  * [🔗 Raspberry Pi Pico](https://www.amazon.com.br/LANDZO-Raspberry-Pi-Pico/dp/B08VNR5RLF)
  * [🔗 Display OLED SPI de 128x32]()
@@ -35,11 +35,17 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 <h2>🚀 Instalação</h2>
 
-<h3 id="secao-esquema-eletrico">⚡️ Esquema Elétrico</h3>
+<ul>
+  <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
+</ul>
+
 
 < Foto Final do Esquema Elétrico >
 
-<h3>📝 Diagrama de Blocos</h3>
+<ul>
+  <li><h3>Diagrama de Blocos</h3></li>
+</ul>
+
 
 < Foto Final do Diagrama de Blocos>
 
@@ -67,7 +73,7 @@ Cada arquivo teste.py tem sua execução de acordo a funcionalidade do periféri
 
 > **Observação:** Se a inicialização de algum periférico não funcionar corretamente verifique se os mesmos estão corretamente conectados em seus respectivos pinos, conforme a seçao <a href="#secao-esquema-eletrico">⤴️ Esquema Elétrico</a>.
 
-<h2>📦 Implantação Final</h2>
+<h2>📦 Implementação do Projeto Final</h2>
 
 1. (Opcional) Deletar o diretório teste.py armazenado Raspberry Pi Pico.
 
