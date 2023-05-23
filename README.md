@@ -30,7 +30,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 <h3>🧑🏻‍💻 Softwares Utilizados</h3>
 
  * [🔗 Thonny Python IDE](https://thonny.org/)
- * [🔗 MicroPython firmware](https://projects.raspberrypi.org/en/projects/getting-started-with-the-pico/3)
+ * [🔗 MicroPython firmware](https://docs.micropython.org/en/latest/)
 
 
 <h2>🚀 Instalação</h2>
