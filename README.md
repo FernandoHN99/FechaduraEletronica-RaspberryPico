@@ -35,11 +35,11 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 <h2>🚀 Instalação</h2>
 
-<h3 id="secao-esquema-eletrico">Esquema Elétrico</h3>
+<h3 id="secao-esquema-eletrico">⚡️ Esquema Elétrico</h3>
 
 < Foto Final do Esquema Elétrico >
 
-<h3>Diagrama de Blocos</h3>
+<h3>📝 Diagrama de Blocos</h3>
 
 < Foto Final do Diagrama de Blocos>
 
@@ -65,13 +65,13 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 Cada arquivo teste.py tem sua execução de acordo a funcionalidade do periférico que está sendo testado.
 
-> **Observação:** Se a inicialização de algum periférico não funcionar corretamente verifique se os mesmos estão corretamente conectados em seus respectivos pinos, conforme a seçao <a href="#secao-esquema-eletrico">📎 Esquema Elétrico</a>.
+> **Observação:** Se a inicialização de algum periférico não funcionar corretamente verifique se os mesmos estão corretamente conectados em seus respectivos pinos, conforme a seçao <a href="#secao-esquema-eletrico">⤴️ Esquema Elétrico</a>.
 
 <h2>📦 Implantação Final</h2>
 
 1. (Opcional) Deletar o diretório teste.py armazenado Raspberry Pi Pico.
 
-2. Adicionar os valores do(s) cartão(s) que deseja permitir o acesso na linha 291 do arquivo system.py. Valores encontrados ao executar o arquivo teste.py listado em Sensor_RFID conforme a seção <a href="#secao-testes">📎 Executando os testes individualmente</a>.
+2. Adicionar os valores do(s) cartão(s) que deseja permitir o acesso na linha 291 do arquivo system.py. Valores encontrados ao executar o arquivo teste.py listado em Sensor_RFID conforme a seção <a href="#secao-testes">⤴️ Executando os testes individualmente</a>.
     - Ex: ``` list_cards = [296158778, 296158779] ```
 
 2. Execute o arquivo system.py.
