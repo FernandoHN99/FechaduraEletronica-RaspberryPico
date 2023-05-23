@@ -6,10 +6,10 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
 
 ## ⚙️ Funcionalidades do Sistema 
 
-### 🕺🏼 Detector de presença de pessoas para ativação da fechadura.
-### 🚫 ✅ Controle de autorização de acesso via aproximação de cartão TAG.
-### 🚪 Exibição de mensagens ao usuário conforme o estado da porta (aberta ou fechada).
-### 🚨 Deteção de Invasão.
+#### 🕺🏼 Detector de presença de pessoas para ativação da fechadura.
+#### ✅ Controle de autorização de acesso via aproximação de cartão TAG.
+#### 🚪 Exibição de mensagens ao usuário conforme o estado da porta (aberta ou fechada).
+#### 🚨 Deteção de Invasão.
 
 <br>
 
