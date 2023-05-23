@@ -1,4 +1,4 @@
-<h1>Maçaneta Eletrônica com Raspberry Pi Pico</h1>
+<h1>Maçaneta Eletrônica com Raspberry Pi Pico 🍓</h1>
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
