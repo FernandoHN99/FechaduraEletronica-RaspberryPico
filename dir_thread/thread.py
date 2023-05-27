@@ -45,7 +45,7 @@ class Thread:
         self._buzzer.off()
     
     def finish_process(self):
-        self._control_running    = False
+        # self._control_running    = False
         self._running            = False
         self._counter            = 0
         self._completed          = True
@@ -57,6 +57,7 @@ class Thread:
             self._counter -= 1 
 
         self.finish_process()
+        print("Sai")
     
     def beep(self, beep_per_second):
         aux_calc = int(1000/beep_per_second)

@@ -21,7 +21,6 @@ class System:
         self._current_y_msg         = None
         self._time_flow_control     = 10
 
-
     def run(self):
         # Display
         self._pino_rele.on()
@@ -39,8 +38,7 @@ class System:
         self._display01.write_full("Infrared", 10, 10, timer=0.2)
 
         # Inicio do Monitoramento
-        self.flow_init()
-        # self.start_track()
+        self.start_track()
     
     def time_flow(self):
         Util.wait_ms(self._time_flow_control)
@@ -66,7 +64,6 @@ class System:
         self._display01.show()
         Util.wait_sec(2)
         self._display01.write_blank()
-        # self._pir01.start_detection()
 
     def check_indiviual_time(self, key):
         return self._thread01.get_counter_limit() == self._dic_times_t1[key]
@@ -135,6 +132,7 @@ class System:
         self._display01.write("AUTORIZADO", 30, 18)
         self._display01.show()
         Util.wait_sec(2)
+        self._display01.write_blank()
     
     def msg_first_initialization_01(self):
         self._display01.clear()
@@ -284,10 +282,10 @@ class System:
             
             if(self._pir01.get_state() == 1 and self._pir01.get_last_state() == 0):  # Verifica se ocorreu uma borda de subida
                 self._pir01.set_last_state(1)
-                self._thread01.start_counter(self._dic_times_t1["minimun-presence"])
+                i = 0
                 
-                while(self._thread01.is_running() or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
-                    self.time_flow()
+                while(i<= 10 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
+                    i +=1
                     self._infrared01.update_state()
                     self._pir01.update_state()
                     self.msg_person_detected()
@@ -306,7 +304,7 @@ class System:
 
             elif(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                 self._pir01.set_last_state(0)                                            # Atualiza o estado anterior do senso
-                self.msg_person_undetected()
+                self._display01.write_blank()
 
             self.flow_intrusion()
             self.flow_permission_button()
