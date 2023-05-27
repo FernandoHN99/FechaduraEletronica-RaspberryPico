@@ -21,7 +21,7 @@ pir_state = 0
 pir_last_state = 0
 
 # Habilita o uso de interrupção para o sensor
-enable_irq = True
+enable_irq = False
 
 # Configura o pino da saída digital do sensor
 pir = Pin(pir_pin, Pin.IN)
