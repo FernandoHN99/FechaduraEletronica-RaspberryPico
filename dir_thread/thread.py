@@ -27,9 +27,17 @@ class Thread:
         _thread.start_new_thread(self.beep, (self._dic_process_beep[name_process],))
     
     def release_thread(self):
-        if(self._control_running):
+        if(self._running):
+            self._control_running = False
             self.wait_terminate()
-            self.set_off_process()
+        
+    def reset(self):
+        if(self._control_running):
+            self._control_running       = False
+            self.wait_terminate()
+            self._running               = False
+            self._completed             = False
+            self._current_process       = None
 
     def set_on_process(self, name_process):
         self._current_process   = name_process
@@ -37,39 +45,36 @@ class Thread:
         self._running           = True
         self._completed         = False
     
-    def set_off_process(self):
-        self._control_running   = False
-        self._running           = False
-        self._counter           = 0
-        self._completed         = False
-        self._buzzer.off()
-    
     def finish_process(self):
-        # self._control_running    = False
-        self._running            = False
-        self._counter            = 0
         self._completed          = True
-        self._buzzer.off() 
+        self._control_running    = False
+        self._running            = False
+        self._buzzer.off()
         
     def counter(self):
-        while(self._counter > 0 and self._control_running):
+        while(self._counter > 0):
             Util.wait_sec(1)
-            self._counter -= 1 
+            self._counter -= 1
+
+            if(not self._control_running):
+                self._running  = False
+                return
 
         self.finish_process()
-        print("Sai")
     
     def beep(self, beep_per_second):
         aux_calc = int(1000/beep_per_second)
         while(self._control_running):
             Util.wait_ms(aux_calc)
             self._buzzer.toggle()
-
+        
         self.finish_process()
-    
+
     def wait_terminate(self):
-        while self._running == True: 
+        while self._running:
             Util.wait_ms(10)
+
+        self._running  = False
 
     def check_process(self, process):
         return self._current_process == process

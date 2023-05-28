@@ -50,6 +50,7 @@ class System:
             self._current_y_msg +=self._dic_y_config["increment"]
     
     def reset_y_msg(self):
+        self._display01.clear()
         self._current_y_msg = self._dic_y_config["reset"]
     
     def flow_permission_button(self):     
@@ -57,7 +58,6 @@ class System:
             self.flow_allowed_access()
 
     def close_door(self):
-        self._thread01.release_thread()
         self._display01.clear() 
         self._display01.write("PORTA", 40, 5)
         self._display01.write("TRANCADA", 30, 20)
@@ -123,7 +123,7 @@ class System:
         if(self._current_y_msg != self._dic_y_config["limit"]):
             self._display01.write("!!! INVASAO !!!", 8, self._current_y_msg)
         else:
-            self._display01.clear()        
+            self._display01.clear()       
         self._display01.show()
     
     def msg_not_authorized(self):
@@ -158,6 +158,7 @@ class System:
                 self.time_flow()
                 self._infrared01.update_state()
 
+
                 while(self._infrared01.get_state() == 0 and self._tag01.read_card() in self._list_cards):
                     self._infrared01.update_state()
                     self.time_flow()
@@ -169,6 +170,7 @@ class System:
 
                         elif(self._thread01.is_completed()):
                             self.close_door()
+                            self._thread01.reset()
                             return
                             
                         else:
@@ -178,38 +180,44 @@ class System:
                         self._thread01.start_counter("first-time-config")
                         
                         
-                #if(self._infrared01.get_state() == 0):
-                self.msg_first_initialization_02()
-                self._thread01.release_thread()
+                if(self._infrared01.get_state() == 0):
+                    self.msg_first_initialization_02()
+                    self._thread01.reset()
 
             self.msg_first_initialization_01()
-            self._thread01.release_thread()
-
+            self._thread01.reset()
 
     def flow_intrusion(self):
+        self._infrared01.update_state()
         self.reset_y_msg()
-        self._thread01.release_thread()
+        # self._thread01.reset()
         while(self._infrared01.get_state() == 1):
             self.time_flow()
             
             while(self._tag01.read_card() in self._list_cards):
-
                 self.time_flow()
-                if(self._thread01.check_thread_counter()):
+
+                if(self._thread01.check_process("solution-intrusion")):
                     
                     if(self._thread01.is_running()):
                         self.msg_intrusion_solution()
                         self.reset_y_msg()
 
-                    else:
+                    elif(self._thread01.is_completed()):
+                        self._display01.write_blank()
                         self.flow_allowed_access()
-                        self._thread01.release_thread()
                         return
+
+                    else:
+                        self._thread01.start_counter("solution-intrusion")
+                        self._display01.write_blank()
+
                 else:
-                    self._thread01.start_counter(self._dic_times_t1["intrusion"])
+                    self._thread01.start_counter("solution-intrusion")
+                    self._display01.write_blank()
                     
-            if not self._thread01.check_thread_beep():
-                self._thread01.start_beep(self._dic_beeps_t1["intrusion"])
+            if not self._thread01.check_process("intrusion"):
+                self._thread01.start_beep("intrusion")
             
             self.msg_intrusion()
 
@@ -273,8 +281,7 @@ class System:
 
     # Monitoramento Maçaneta
     def start_track(self):
-        self.flow_init()
-        self._thread01.release_thread()
+        #self.flow_init()
         while(True):
             self.time_flow()
             self._infrared01.update_state()
@@ -286,7 +293,7 @@ class System:
                 
                 while(i<= 10 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
                     i +=1
-                    self._infrared01.update_state()
+                    
                     self._pir01.update_state()
                     self.msg_person_detected()
                     self._card = self._tag01.read_card()
@@ -299,8 +306,8 @@ class System:
                     elif(self._card != None):
                         self.msg_not_authorized()
 
-                    self.flow_intrusion()
                     self.flow_permission_button()
+                    self.flow_intrusion()
 
             elif(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                 self._pir01.set_last_state(0)                                            # Atualiza o estado anterior do senso
