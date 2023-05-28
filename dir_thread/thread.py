@@ -3,15 +3,15 @@ import _thread
 from machine import Pin
 
 class Thread:
-    def __init__(self, buzzer_pin):
+    def __init__(self, buzzer):
         self._running               = False
         self._control_running       = False
         self._current_process       = None
         self._completed             = False
         self._counter               = 0
-        self._buzzer                = Pin(buzzer_pin, Pin.OUT)
-        self._dic_process_counter   = {"closed-door": 5, "opened-dorr": 10, "semi-closed-door": 1, "solution-intrusion": 5, "first-time-config": 3, "minimun-presence": 5}
-        self._dic_process_beep      = {"intrusion": 15}
+        self._buzzer                = buzzer
+        self._dic_process_counter   = {"allowed-door": 5, "opened-door": 10, "semi-closed-door": 1, "solution-intrusion": 5, "first-time-config": 3, "minimun-presence": 5}
+        self._dic_process_beep      = {"intrusion": 15, "close-door": 2}
 
     def start_counter(self, name_process):
         self.release_thread()
@@ -32,7 +32,7 @@ class Thread:
             self.wait_terminate()
         
     def reset(self):
-        if(self._control_running):
+        if(self._current_process != None):
             self._control_running       = False
             self.wait_terminate()
             self._running               = False

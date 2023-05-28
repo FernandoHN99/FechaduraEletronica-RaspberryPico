@@ -12,9 +12,10 @@ class System:
         self._pir01                 = Motion_Detector(raspberry_pin=14, interruption_mode=False)
         self._infrared01            = Infrared_Detector(raspberry_pin=15, debounce_time=10, interruption_mode=False)
         self._tag01                 = RFID_RC522(rasp_sck=18, rasp_miso=16, rasp_mosi=19, rfid_cs=17, rfid_rst=22, rfid_spi_id=0)
-        self._thread01              = Thread(buzzer_pin=9)
+        self._buzzer                = Pin(9, Pin.OUT)
         self._pino_rele             = Pin(8, Pin.OUT)
         self._pino_botao            = Pin(27, Pin.OUT)
+        self._thread01              = Thread(self._buzzer)
         self._dic_y_config          = {"minimun": 0, "limit": 33, "increment": 11, "reset":-11}
         self._list_cards            = list_cards
         self._card                  = None
@@ -43,6 +44,15 @@ class System:
     def time_flow(self):
         Util.wait_ms(self._time_flow_control)
     
+    def beep_opened_door(self):
+        self._buzzer.on()
+        Util.wait_ms(80)
+        self._buzzer.off()
+        Util.wait_ms(40)
+        self._buzzer.on()
+        Util.wait_ms(80)
+        self._buzzer.off()
+    
     def calc_y_msg(self):
         if(self._current_y_msg == self._dic_y_config["limit"]):
             self._current_y_msg = self._dic_y_config["minimun"] 
@@ -57,12 +67,14 @@ class System:
         if(self._pino_botao.value() == 1): #Estado do botao de dentro for apertado 
             self.flow_allowed_access()
 
-    def close_door(self):
+    def closed_door(self):
+        self._buzzer.on()
         self._display01.clear() 
         self._display01.write("PORTA", 40, 5)
         self._display01.write("TRANCADA", 30, 20)
         self._display01.show()
-        Util.wait_sec(2)
+        Util.wait_sec(0.75)
+        self._buzzer.off()
         self._display01.write_blank()
 
     def check_indiviual_time(self, key):
@@ -79,7 +91,7 @@ class System:
         self._display01.write(f"{self._thread01.get_counter()}", 63, 17)
         self._display01.show()
 
-    def msg_closed_door(self):
+    def msg_allowed_door(self):
         self._display01.clear()
         self._display01.write("Acesso Liberado", 6, 3)
         self._display01.write(f"{self._thread01.get_counter()}", 63, 17)
@@ -126,6 +138,14 @@ class System:
             self._display01.clear()       
         self._display01.show()
     
+    def msg_sulution_completed(self):
+        self._display01.clear()
+        self._display01.write("TUDO", 55, 5)
+        self._display01.write("CERTO!!", 30, 18)
+        self._display01.show()
+        Util.wait_sec(1)
+        self._display01.write_blank()
+    
     def msg_not_authorized(self):
         self._display01.clear()
         self._display01.write("NAO", 55, 5)
@@ -169,7 +189,7 @@ class System:
                             self.msg_intrusion_solution()
 
                         elif(self._thread01.is_completed()):
-                            self.close_door()
+                            self.closed_door()
                             self._thread01.reset()
                             return
                             
@@ -190,7 +210,6 @@ class System:
     def flow_intrusion(self):
         self._infrared01.update_state()
         self.reset_y_msg()
-        # self._thread01.reset()
         while(self._infrared01.get_state() == 1):
             self.time_flow()
             
@@ -205,6 +224,7 @@ class System:
 
                     elif(self._thread01.is_completed()):
                         self._display01.write_blank()
+                        # self.msg_sulution_completed()
                         self.flow_allowed_access()
                         return
 
@@ -222,66 +242,69 @@ class System:
             self.msg_intrusion()
 
     def flow_allowed_access(self):
-        self._thread01.release_thread()                 # Iniciaiza a thread, porem sem o start
-        #self._pir01.pause_detection()                       # Pausa o sensor de presenca de pessoas
-
+        self.beep_opened_door()
+        self._thread01.reset()   
+        self._infrared01.init_helper()
         while(True):
-            self.time_flow()
             self._infrared01.update_state()
 
             # Verifica se é a primeira vez que porta está aberta
             if(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 0):
-                self._thread01.start_counter(self._dic_times_t1["opened"])  # Thread iniciada
+                self._thread01.start_counter("opened-door")
                 self._infrared01.set_last_state(1)
-                self._pino_rele.value(1) 
-                                   
+                self._pino_rele.off()                           
                 
             # Verifica se a se a porta está aberta porem nao eh a primeira vez
             elif(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 1): 
 
-                if(self._thread01.check_thread_counter() and self._thread01.is_running()):
+                if(self._thread01.check_process("opened-door") and self._thread01.is_running()):
                     self.msg_opened_door()
-                else:
-                    if(not self._thread01.check_thread_beep()):
-                        self._thread01.start_beep(2)
-                    
-                    self.msg_close_door()
 
+                elif(self._thread01.check_process("close-door")):
+                        self.msg_close_door()
+
+                else:
+                    self._thread01.start_beep("close-door")
+                    
             # Verifica se é a primeira vez porta está fechada
             elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 1):  
                 self._infrared01.set_last_state(0)
+    
+                if(self._thread01.check_process(None)):
+                    self._thread01.start_counter("allowed-door")
+                    self._pino_rele.on()
+                else:
+                    self._thread01.start_counter("semi-closed-door")
 
-            
             # Verifica se a porta está fechada porem nao eh a primeira vez
             elif(self._infrared01.get_state() == 0 and self._infrared01.get_last_state() == 0):
                 
-                if(self._thread01.check_thread_counter()):
-                
-                    if(self.check_indiviual_time("semi-closed")):
+                if(self._thread01.check_process("allowed-door")):
 
-                        if(self._thread01.is_running()):
-                            self.msg_wait_close_door()
-                        else:
-                            self.close_door()
-                            break
+                    if(self._thread01.is_running()):
+                        self.msg_allowed_door()
 
-                    elif(self.check_indiviual_time("opened")):
-                        self._thread01.start_counter(self._dic_times_t1["semi-closed"]) # Thread iniciada
-                    elif(self._thread01.is_running()):
-                        self.msg_closed_door()
-                    else:  
-                        self._pino_rele.value(1)
-                        self.close_door()
-                        break
-            
+                    else:
+                        self._pino_rele.off()
+                        self.closed_door()
+                        self._display01.write_blank()
+                        self._thread01.reset()
+                        return
+
+                elif(self._thread01.is_completed()):
+                    
+                    self.closed_door()
+                    self._display01.write_blank()
+                    self._thread01.reset()
+                    return
+
                 else:
-                    self._thread01.start_counter(self._dic_times_t1["closed"]) # Thread iniciada
-                    self._pino_rele.value(0)
+                    self.msg_wait_close_door()
 
 
     # Monitoramento Maçaneta
     def start_track(self):
-        #self.flow_init()
+        self.flow_init()
         while(True):
             self.time_flow()
             self._infrared01.update_state()
@@ -293,7 +316,6 @@ class System:
                 
                 while(i<= 10 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
                     i +=1
-                    
                     self._pir01.update_state()
                     self.msg_person_detected()
                     self._card = self._tag01.read_card()

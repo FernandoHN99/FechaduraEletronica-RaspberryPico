@@ -29,6 +29,10 @@ class Motion_Detector:
     # Faz com que os valores sejam atualizados constantemente
     def update_state(self):             
         self._state = self._detector.value()
+    
+    def init_helper(self):
+        self._state = self._detector.value()
+        self._last_state  = not self._state
 
     # Getters && Setters
     def get_state(self):
@@ -48,8 +52,4 @@ class Motion_Detector:
 
     def set_last_state(self, last_state):
         self._last_state = last_state
-
-
-
-
 
