@@ -77,13 +77,13 @@ while True:
     # Verifica se ocorreu uma borda de subida no sinal do sensor
     if obstacle_state == 1 and obstacle_last_state == 0:
         # Atualiza o estado anterior do sensor
-        obstacle_last_state = 0
+        obstacle_last_state = 1
         # Imprime que o obstáculo detectado pelo sensor de obstáculo infravermelho foi removido
         print("Obstáculo removido!")
 
     # Verifica se ocorreu uma borda de descida no sinal do sensor
     elif obstacle_state == 0 and obstacle_last_state == 1:
         # Atualiza o estado anterior do sensor
-        obstacle_last_state = 1
+        obstacle_last_state = 0
         # Imprime que foi detectado um obstáculo no sensor de obstáculo infravermelho
         print("Obstáculo detectado!")

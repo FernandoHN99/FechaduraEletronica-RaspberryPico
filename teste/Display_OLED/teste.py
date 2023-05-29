@@ -10,7 +10,7 @@
 # Importa as classes Pin e SPI da biblioteca machine para controlar o hardware do Raspberry Pi Pico
 from machine import Pin, SPI
 # Importa a classe SSD1306_SPI da biblioteca ssd1306.py
-from ssd1306 import SSD1306_SPI
+from teste.Display_OLED.ssd1306 import SSD1306_SPI
 
 # Define os pinos do Raspberry Pi Pico conectados ao barramento SPI 0
 spi0_sck_pin = 6
@@ -42,7 +42,7 @@ display.vline(23, 8, 22, 1)            # desenha uma linha vertical x = 23, y = 
 display.fill_rect(26, 24, 2, 4, 1)     # desenha um retângulo sólido de 26,24 a 2,4, cor = 1
 display.text('MicroPython', 40, 0, 1)  # desenha algum texto em x = 40, y = 0 , cor = 1
 display.text('SSD1306', 40, 12, 1)     # desenha algum texto em x = 40, y = 12, cor = 1
-display.text('OLED 128x64', 40, 24, 1) # desenha algum texto em x = 40, y = 24, cor = 1
+display.text('OLED 128x32', 40, 24, 1) # desenha algum texto em x = 40, y = 24, cor = 1
 display.show()                         # escreve o conteúdo do FrameBuffer na memória do display
 
 # Atualiza o display

@@ -1,4 +1,4 @@
-from mfrc522 import MFRC522
+from teste.Sensor_RFID.mfrc522 import MFRC522
 import utime
  
 reader = MFRC522(spi_id=0,sck=18,miso=16,mosi=19,cs=17,rst=22)
