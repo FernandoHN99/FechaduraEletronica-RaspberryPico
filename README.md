@@ -41,13 +41,6 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 
 <img src="./teste/EsquemaEletrico.jpeg" alt="Esquema Eletrico" style="max-height: 100px;">
 
-<ul>
-  <li><h3>Diagrama de Blocos</h3></li>
-</ul>
-
-
-< Foto Final do Diagrama de Blocos>
-
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
 
 1. Montar em uma protoboard o sistema conforme a seção <a href="#secao-esquema-eletrico">⤴️ Esquema Elétrico.</a>
