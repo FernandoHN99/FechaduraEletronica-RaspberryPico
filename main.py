@@ -310,24 +310,25 @@ class System:
                 self._pir01.set_last_state(1)
                 i = 0
                 
-                while(i<= 10 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
+                while(i<= 15 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
                     i +=1
                     self._pir01.update_state()
+                    self.flow_permission_button()
                     self.msg_person_detected()
+                    self.flow_intrusion()
                     self._card = self._tag01.read_card()
+                    self.flow_permission_button()
+
 
                     if(self._card in self._list_cards):
                         self.flow_allowed_access()
-                        self._pir01.set_state(0)
                         break
 
                     elif(self._card != None):
                         self.msg_not_authorized()
 
-                    self.flow_permission_button()
-                    self.flow_intrusion()
 
-            elif(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
+            if(self._pir01.get_state() == 0 and self._pir01.get_last_state() == 1):  # Verifica se ocorreu uma borda de descida
                 self._pir01.set_last_state(0)                                            # Atualiza o estado anterior do senso
                 self._display01.write_blank()
 
@@ -337,4 +338,5 @@ class System:
 if __name__ == '__main__':
      cards=[296151778]
      System(cards).run()
+
 
