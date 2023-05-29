@@ -313,8 +313,8 @@ class System:
                 while(i<= 15 or (self._pir01.get_state() == 1 and self._pir01.get_last_state() == 1)):
                     i +=1
                     self._pir01.update_state()
-                    self.flow_permission_button()
                     self.msg_person_detected()
+                    self.flow_permission_button()
                     self.flow_intrusion()
                     self._card = self._tag01.read_card()
                     self.flow_permission_button()
