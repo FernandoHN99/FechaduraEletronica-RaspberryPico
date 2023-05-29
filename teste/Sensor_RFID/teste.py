@@ -1,11 +1,10 @@
 from mfrc522 import MFRC522
 import utime
  
-reader = MFRC522(spi_id=0,sck=6,miso=4,mosi=7,cs=5,rst=22)
+reader = MFRC522(spi_id=0,sck=18,miso=16,mosi=19,cs=17,rst=22)
  
 print("Bring TAG closer...")
 print("")
- 
  
 while True:
     reader.init()

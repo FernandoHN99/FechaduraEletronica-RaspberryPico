@@ -13,12 +13,12 @@ from machine import Pin, SPI
 from ssd1306 import SSD1306_SPI
 
 # Define os pinos do Raspberry Pi Pico conectados ao barramento SPI 0
-spi0_sck_pin = 2
+spi0_sck_pin = 6
 spi0_mosi_pin = 3
 spi0_miso_pin = 4
 
 # Define os pinos do Raspberry Pi Pico conectados ao display OLED SPI
-display_dc = 0  # Data/command
+display_dc = 4  # Data/command
 display_rst = 1 # Reset
 display_cs = 5  # Chip select, alguns modulos não tem esse pino
 
