@@ -39,7 +39,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
   <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
 </ul>
 
-<img src="./teste/EsquemaEletrico.jpeg" alt="Descrição da imagem" style="max-height: 200px;">
+<img src="./teste/EsquemaEletrico.jpeg" alt="Esquema Eletrico" style="max-height: 100px;">
 
 <ul>
   <li><h3>Diagrama de Blocos</h3></li>
