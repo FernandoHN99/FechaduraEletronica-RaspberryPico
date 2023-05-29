@@ -338,5 +338,3 @@ class System:
 if __name__ == '__main__':
      cards=[296151778]
      System(cards).run()
-
-

@@ -76,7 +76,7 @@ Cada arquivo teste.py tem sua execução de acordo a funcionalidade do periféri
 
 1. (Opcional) Deletar o diretório teste armazenado Raspberry Pi Pico.
 
-2. Adicionar os valores do(s) cartão(s) que deseja permitir o acesso na anti-penúltima linha do arquivo system.py. 
+2. Adicionar os valores do(s) cartão(s) que deseja permitir o acesso na penúltima linha do arquivo system.py. 
 Este valores são encontrados ao executar o arquivo teste.py listado em Sensor_RFID conforme a seção <a href="#secao-testes">⤴️ Executando os testes individualmente</a>.
     - Ex: ``` list_cards = [296158778, 296158779] ```
 
