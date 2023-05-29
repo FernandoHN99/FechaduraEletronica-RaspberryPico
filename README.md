@@ -39,8 +39,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
   <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
 </ul>
 
-
-< Foto Final do Esquema Elétrico >
+<img src="./teste/EsquemaEletrico.jpeg" alt="Descrição da imagem">
 
 <ul>
   <li><h3>Diagrama de Blocos</h3></li>
