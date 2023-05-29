@@ -26,17 +26,14 @@ class System:
         # Display
         self._pino_rele.on()
         self._display01.start()
-        self._display01.write_full("Display", 10, 10, timer=0.2)
         
         # PIR HC-SR501 - Sensor movimento
         self._pir01.start_detection()
-        self._display01.write_full("MOV", 10, 10, timer=0.2)
     
         # Tag RFID  --> Inicializado na Instância
 
         # Sensor Infravermelho
         self._infrared01.start_detection()
-        self._display01.write_full("Infrared", 10, 10, timer=0.2)
 
         # Inicio do Monitoramento
         self.start_track()
@@ -340,3 +337,4 @@ class System:
 if __name__ == '__main__':
      cards=[296151778]
      System(cards).run()
+
