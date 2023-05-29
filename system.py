@@ -140,8 +140,7 @@ class System:
     
     def msg_sulution_completed(self):
         self._display01.clear()
-        self._display01.write("TUDO", 55, 5)
-        self._display01.write("CERTO!!", 30, 18)
+        self._display01.write("TUDO CERTO", 20, 13)
         self._display01.show()
         Util.wait_sec(1)
         self._display01.write_blank()
@@ -224,7 +223,7 @@ class System:
 
                     elif(self._thread01.is_completed()):
                         self._display01.write_blank()
-                        # self.msg_sulution_completed()
+                        self.msg_sulution_completed()
                         self.flow_allowed_access()
                         return
 
