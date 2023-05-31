@@ -248,7 +248,7 @@ class System:
             if(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 0):
                 self._thread01.start_counter("opened-door")
                 self._infrared01.set_last_state(1)
-                self._pino_rele.off()                           
+                self._pino_rele.on()                           
                 
             # Verifica se a se a porta está aberta porem nao eh a primeira vez
             elif(self._infrared01.get_state() == 1 and self._infrared01.get_last_state() == 1): 
@@ -268,7 +268,7 @@ class System:
     
                 if(self._thread01.check_process(None)):
                     self._thread01.start_counter("allowed-door")
-                    self._pino_rele.on()
+                    self._pino_rele.off()
                 else:
                     self._thread01.start_counter("semi-closed-door")
 
@@ -281,7 +281,7 @@ class System:
                         self.msg_allowed_door()
 
                     else:
-                        self._pino_rele.off()
+                        self._pino_rele.on()
                         self.closed_door()
                         self._display01.write_blank()
                         self._thread01.reset()
