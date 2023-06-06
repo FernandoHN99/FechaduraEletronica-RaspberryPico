@@ -2,7 +2,7 @@
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
-< Foto Final do Projeto >
+< Video Final do Projeto >
 
 <h2>⚙️ Funcionalidades do Sistema </h2>
 
@@ -11,6 +11,13 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
 <h4>🚪 Exibição de mensagens ao usuário conforme o estado da porta (aberta ou fechada).</h4>
 <h4>🚨 Deteção de Invasão.</h4>
 
+<h2>💰 Custos do Projeto </h2>
+
+ * Hardware: R$200,00
+ * Software: Sem custo
+ * Infraestrutura Adicional: R$36,00
+ * <h3> <strong> Custo Total: R$ 236,00 <strong> </h4>
+
 <h2>🎬 Começando...</h2>
 
 Essas instruções permitirão que você consiga realizar uma cópia do projeto em operação em seu Raspberry para fins de desenvolvimento e teste.
@@ -18,20 +25,21 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 <h3>🕹️ Hardwares Utilizados</h3>
 
  * [🔗 Raspberry Pi Pico](https://www.amazon.com.br/LANDZO-Raspberry-Pi-Pico/dp/B08VNR5RLF)
- * [🔗 Display OLED SPI de 128x32]()
+ * [🔗 Display OLED SPI de 128x32](https://www.amazon.com/HiLetgo-Display-128x32-SSD1306-Arduino/dp/B01N6AIG6A)
  * [🔗 Sensor de Movimento PIR HC-SR501](https://www.robocore.net/sensor-ambiente/sensor-de-presenca-pir-hc-sr501)
  * [🔗 Sensor de Obstáculos Reflexivo Infravermelho](https://www.eletrogate.com/sensor-de-obstaculo-reflexivo-infravermelho)
  * [🔗 Sensor de RFID com TAG](https://curtocircuito.com.br/kit-rfid-rc522.html)
  * [🔗 Trava Eletrica Solenoide 12 volts](https://produto.mercadolivre.com.br/MLB-2187293250-mini-trava-eletrica-solenoide-12v-arduino-raspberry-_JM?quantity=1)
- * [🔗 Rele de 5 volts]()
+ * [🔗 Rele de 5 volts](https://www.baudaeletronica.com.br/produto/modulo-rele-5v.html)
  * [🔗 Botão de arduino](https://arduinoeeletronica.com.br/produto/botao-microchave-push-button-4-pinos/)
  * [🔗 Buzzer simples sem módulo](https://www.acheicomponentes.com.br/circuitos-integrados/buzzer-piezo-ps1240p02bt-4khz-s-oscilador?parceiro=3811)
+ * [🔗Placa De Circuito Impresso](https://produto.mercadolivre.com.br/MLB-2784358875-placa-de-circuito-impresso-pcb-fibra-de-vidro-7x9-806-furos-_JM#reco_item_pos=0&reco_backend=adv_hybrid_L2_brothers_cruella&reco_backend_type=low_level&reco_client=vip-pads-up&reco_id=93b9d4e3-2a2a-4a7c-9e76-0e01ec5a4ce5&is_advertising=true&ad_domain=VIPDESKTOP_UP&ad_position=1&ad_click_id=ZjNiMTdmMDYtYjQxNS00ZjkyLTg3ZDgtOTA5NjQ3ZjgxMTlk)
+
 
 <h3>🧑🏻‍💻 Softwares Utilizados</h3>
 
  * [🔗 Thonny Python IDE](https://thonny.org/)
  * [🔗 MicroPython firmware](https://docs.micropython.org/en/latest/)
-
 
 <h2>🚀 Instalação</h2>
 
