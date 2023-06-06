@@ -47,7 +47,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
   <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
 </ul>
 
-<img src="./teste/EsquemaEletrico.jpeg" alt="Esquema Eletrico" style="max-height: 100px;">
+<img src="./teste/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
 
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
 
