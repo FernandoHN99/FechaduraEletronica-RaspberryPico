@@ -16,7 +16,7 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
  * Hardware: R$200,00
  * Software: Sem custo
  * Infraestrutura Adicional: R$36,00
- * <h3> <strong> Custo Total: R$ 236,00 <strong> </h4>
+<h3> <strong> Custo Total: R$ 236,00 <strong> </h4>
 
 <h2>🎬 Começando...</h2>
 
