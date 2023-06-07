@@ -6,7 +6,7 @@ Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste n
     <source src="./media/VideoApresentacao.mp4" type="video/mp4">
 </video> -->
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=nSrUiYscw3s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![Vídeo de Demonstração]()](https://www.youtube.com/watch?v=nSrUiYscw3s)
 
 <h2>⚙️ Funcionalidades do Sistema </h2>
 
