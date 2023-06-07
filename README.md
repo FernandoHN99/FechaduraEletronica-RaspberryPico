@@ -2,11 +2,7 @@
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
-<!-- <video>
-    <source src="./media/VideoApresentacao.mp4" type="video/mp4">
-</video> -->
-
-[![Vídeo de Demonstração]()](https://www.youtube.com/watch?v=nSrUiYscw3s)
+https://github.com/FernandoHN99/FechaduraEletronica-RaspberryPico/assets/86134291/42b10ca2-2b5b-4c22-84c3-7e5691b1ef7e
 
 <h2>⚙️ Funcionalidades do Sistema </h2>
 
