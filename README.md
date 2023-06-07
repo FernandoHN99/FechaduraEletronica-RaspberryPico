@@ -2,7 +2,7 @@
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
-<video width="640" height="480" controls>
+<video>
     <source src="./media/VideoApresentacao.mp4" type="video/mp4">
 </video>
 
