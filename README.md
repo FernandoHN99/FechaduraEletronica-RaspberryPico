@@ -2,7 +2,9 @@
 
 Este é um projeto baseado no microcontrolador Raspberry Pi Pico, que consiste na construção de uma maçaneta eletrônica na qual seu funcionamento é liberado via a aproximação de um cartão TAG.
 
-< Video Final do Projeto >
+<video width="640" height="480" controls>
+    <source src="./media/VideoApresentacao.mp4" type="video/mp4">
+</video>
 
 <h2>⚙️ Funcionalidades do Sistema </h2>
 
@@ -47,7 +49,7 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
   <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
 </ul>
 
-<img src="./teste/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
+<img src="./media/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
 
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
 
