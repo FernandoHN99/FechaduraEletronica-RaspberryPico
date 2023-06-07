@@ -46,10 +46,17 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 <h2>🚀 Instalação</h2>
 
 <ul>
-  <li><h3 id="secao-esquema-eletrico">Esquema Elétrico</h3></li>
+  <li>
+    <h3 id="secao-diagrama-blocos">Diagrama De Blocos</h3>
+    <img src="./media/DiagramaDeBlocos.png" alt="Diagrama de Blcoos" style="max-height: 100px;">
+  </li>
+
+  <li>
+    <h3 id="secao-esquema-eletrico">Esquema Elétrico</h3>
+    <img src="./media/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
+  </li>
 </ul>
 
-<img src="./media/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
 
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
 
