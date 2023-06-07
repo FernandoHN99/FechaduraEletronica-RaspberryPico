@@ -46,14 +46,15 @@ Essas instruções permitirão que você consiga realizar uma cópia do projeto 
 <ul>
   <li>
     <h3 id="secao-diagrama-blocos">Diagrama De Blocos</h3>
-    <img src="./media/DiagramaDeBlocos.png" alt="Diagrama de Blcoos" style="max-height: 100px;">
+    <img width="1116" alt="DiagramaDeBlocos" src="https://github.com/FernandoHN99/FechaduraEletronica-RaspberryPico/assets/86134291/83fa63bb-4920-4fe7-9ee4-b308c3ff8d0a">
   </li>
 
   <li>
     <h3 id="secao-esquema-eletrico">Esquema Elétrico</h3>
-    <img src="./media/EsquemaEletrico.png" alt="Esquema Eletrico" style="max-height: 100px;">
+    <img width="730" alt="EsquemaEletrico" src="https://github.com/FernandoHN99/FechaduraEletronica-RaspberryPico/assets/86134291/7cf07a98-58ce-4d45-9054-e6114b7bc13d">
   </li>
 </ul>
+
 
 
 <h2 id="secao-testes">⚙️ Executando os testes individualmente</h2>
